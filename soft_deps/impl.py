@@ -30,38 +30,38 @@ class MissingDependency:
     def _raise_error(self):
         raise ImportError(f"To use `{self.name}`, {self.error_message}.")
 
-    def __repr__(self):
+    def __repr__(self):  # pragma: no cover
         self._raise_error()
 
-    def __getattr__(self, attr: str):
+    def __getattr__(self, attr: str):  # pragma: no cover
         self._raise_error()
 
-    def __getitem__(self, item):
+    def __getitem__(self, item):  # pragma: no cover
         self._raise_error()
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs):  # pragma: no cover
         self._raise_error()
 
-    def __iter__(self):
+    def __iter__(self):  # pragma: no cover
         self._raise_error()
 
-    def __eq__(self, other):
+    def __eq__(self, other):  # pragma: no cover
         self._raise_error()
 
-    def __lt__(self, other):
+    def __lt__(self, other):  # pragma: no cover
         self._raise_error()
 
-    def __hash__(self):
+    def __hash__(self):  # pragma: no cover
         self._raise_error()
 
-    def __add__(self, other):
+    def __add__(self, other):  # pragma: no cover
         self._raise_error()
 
-    def __sub__(self, other):
+    def __sub__(self, other):  # pragma: no cover
         self._raise_error()
 
-    def __mul__(self, other):
+    def __mul__(self, other):  # pragma: no cover
         self._raise_error()
 
-    def __truediv__(self, other):
+    def __truediv__(self, other):  # pragma: no cover
         self._raise_error()
