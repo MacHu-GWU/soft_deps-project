@@ -14,20 +14,54 @@ installation guidance when they're not, all while maintaining zero code
 invasiveness in your implementation.
 """
 
+from functools import total_ordering
 
+
+@total_ordering
 class MissingDependency:
     def __init__(
         self,
         name: str,
-        message: str = "please install it",
+        error_message: str = "please install it",
     ):
         self.name = name
-        self.message = message
+        self.error_message = error_message
+
+    def _raise_error(self):
+        raise ImportError(f"To use `{self.name}`, {self.error_message}.")
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({self.name})"
+        self._raise_error()
 
     def __getattr__(self, attr: str):
-        raise ImportError(
-            f"You didn't install `{self.name}`. To use `{attr}`, {self.message}."
-        )
+        self._raise_error()
+
+    def __getitem__(self, item):
+        self._raise_error()
+
+    def __call__(self, *args, **kwargs):
+        self._raise_error()
+
+    def __iter__(self):
+        self._raise_error()
+
+    def __eq__(self, other):
+        self._raise_error()
+
+    def __lt__(self, other):
+        self._raise_error()
+
+    def __hash__(self):
+        self._raise_error()
+
+    def __add__(self, other):
+        self._raise_error()
+
+    def __sub__(self, other):
+        self._raise_error()
+
+    def __mul__(self, other):
+        self._raise_error()
+
+    def __truediv__(self, other):
+        self._raise_error()
