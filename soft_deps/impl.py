@@ -19,6 +19,16 @@ from functools import total_ordering
 
 @total_ordering
 class MissingDependency:
+    """
+    Placeholder for an optional dependency that is not installed.
+
+    Any use of it (attribute access, call, operator, ...) raises an
+    :class:`ImportError` that tells the user how to install it.
+
+    :param name: name of the missing dependency, shown in the error message.
+    :param error_message: installation hint, shown in the error message.
+    """
+
     def __init__(
         self,
         name: str,

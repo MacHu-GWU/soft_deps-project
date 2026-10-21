@@ -5,6 +5,7 @@ from soft_deps import api
 
 def test():
     _ = api
+    _ = api.MissingDependency
 
 
 if __name__ == "__main__":
