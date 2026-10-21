@@ -14,6 +14,9 @@ installation guidance when they're not, all while maintaining zero code
 invasiveness in your implementation.
 """
 
+from __future__ import annotations
+
+import typing as T
 from functools import total_ordering
 
 
@@ -33,45 +36,45 @@ class MissingDependency:
         self,
         name: str,
         error_message: str = "please install it",
-    ):
+    ) -> None:
         self.name = name
         self.error_message = error_message
 
-    def _raise_error(self):
+    def _raise_error(self) -> T.NoReturn:
         raise ImportError(f"To use `{self.name}`, {self.error_message}.")
 
-    def __repr__(self):  # pragma: no cover
+    def __repr__(self):
         self._raise_error()
 
-    def __getattr__(self, attr: str):  # pragma: no cover
+    def __getattr__(self, attr: str):
         self._raise_error()
 
-    def __getitem__(self, item):  # pragma: no cover
+    def __getitem__(self, item):
         self._raise_error()
 
-    def __call__(self, *args, **kwargs):  # pragma: no cover
+    def __call__(self, *args, **kwargs):
         self._raise_error()
 
-    def __iter__(self):  # pragma: no cover
+    def __iter__(self):
         self._raise_error()
 
-    def __eq__(self, other):  # pragma: no cover
+    def __eq__(self, other):
         self._raise_error()
 
-    def __lt__(self, other):  # pragma: no cover
+    def __lt__(self, other):
         self._raise_error()
 
-    def __hash__(self):  # pragma: no cover
+    def __hash__(self):
         self._raise_error()
 
-    def __add__(self, other):  # pragma: no cover
+    def __add__(self, other):
         self._raise_error()
 
-    def __sub__(self, other):  # pragma: no cover
+    def __sub__(self, other):
         self._raise_error()
 
-    def __mul__(self, other):  # pragma: no cover
+    def __mul__(self, other):
         self._raise_error()
 
-    def __truediv__(self, other):  # pragma: no cover
+    def __truediv__(self, other):
         self._raise_error()
