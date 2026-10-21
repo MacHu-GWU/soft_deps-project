@@ -107,7 +107,7 @@ Users get seamless experience regardless of what's installed:
     try:
         export_to_excel({"col1": [1, 2, 3]})
     except ImportError as e:
-        print(e)  # "You didn't install pandas. To use DataFrame, pip install pandas"
+        print(e)  # "To use `pandas.DataFrame`, pip install pandas."
 
 **The difference:**
 
@@ -126,6 +126,65 @@ Users get seamless experience regardless of what's installed:
     except ImportError:
         pd = MissingDependency("pandas", "pip install pandas")
     # IDE gets full support, graceful errors when actually used
+
+
+Recommended Layout
+------------------------------------------------------------------------------
+Put every optional import in one module, and import the names from there. The installation hint can point at the extra that brings the dependency in:
+
+.. code-block:: python
+
+    # your_library/importer.py
+    from soft_deps.api import MissingDependency
+
+    try:
+        import pandas as pd
+    except ImportError:
+        pd = MissingDependency("pandas", "pip install your_library[excel]")
+
+    try:
+        import boto3
+    except ImportError:
+        boto3 = MissingDependency("boto3", "pip install your_library[aws]")
+
+.. code-block:: python
+
+    # your_library/excel.py
+    from .importer import pd
+
+    def export_to_excel(data: dict, path: str) -> pd.DataFrame:
+        df = pd.DataFrame(data)
+        df.to_excel(path)
+        return df
+
+The rule is simple: **use the dependency inside functions, not at module level.** Then importing ``your_library.excel`` always works, and only calling ``export_to_excel()`` without pandas raises an ``ImportError``.
+
+
+What Raises and What Does Not
+------------------------------------------------------------------------------
+Only real use of the missing dependency raises an ``ImportError``. Merely mentioning it does not, so type hints work with or without ``from __future__ import annotations``:
+
+.. list-table::
+    :header-rows: 1
+
+    * - Does not raise
+      - Raises ``ImportError``
+    * - ``pd.DataFrame``, ``npt.NDArray[np.float64]``, ``pd.DataFrame | None`` (each returns another placeholder, so type hints and ``typing.get_type_hints()`` work)
+      - calling: ``pd.DataFrame(data)``, ``pd.read_csv(path)``
+    * - ``repr(pd)``, ``pd == other``, ``hash(pd)``, ``pd in some_list``, ``copy.copy(pd)``, ``pickle.dumps(pd)``, ``hasattr(pd, "__wrapped__")``
+      - ``str(pd)``, ``f"{pd}"``, ``for x in pd``, ``len(pd)``, ``with pd:``
+    * - ``if pd:`` (always true, like a real module)
+      - ``<``, ``>``, ``+``, ``-``, ``*``, ``/``, ``isinstance(x, pd.DataFrame)``, ``class MyFrame(pd.DataFrame)``
+
+The error message names what was used, for example ``To use `pandas.DataFrame`, pip install your_library[excel].``
+
+**Keep these out of module level**, because they run while the module is imported:
+
+- decorators from the dependency, such as ``@numba.jit``;
+- classes that subclass something from the dependency, such as ``class MyModel(pydantic.BaseModel)``;
+- module-level calls, such as ``session = boto3.Session()``.
+
+Put such code in a module that only the optional feature imports.
 
 
 .. _install:

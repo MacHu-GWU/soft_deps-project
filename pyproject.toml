@@ -2,7 +2,7 @@
 [project]
 name = "soft_deps"
 # Bump before each release (https://semver.org/), then ``mise run inst`` to update ``uv.lock``.
-version = "0.1.1"
+version = "0.2.0"
 description = "Elegant optional dependency management for Python - full IDE support when available, graceful degradation when missing."
 # An SPDX license expression (PEP 639); keep ``LICENSE.txt`` in sync.
 # Read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license-and-license-files
