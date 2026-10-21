@@ -203,3 +203,17 @@ To upgrade to latest version:
 .. code-block:: console
 
     $ pip install --upgrade soft-deps
+
+
+.. _use-with-ai-coding-agents:
+
+Use with AI Coding Agents
+------------------------------------------------------------------------------
+
+This repo ships an `Agent Skill <https://code.claude.com/docs/en/skills>`_ that documents the public API of ``soft_deps``, so an AI coding agent such as Claude Code can use the library without reading its source. It lives in `.claude/skills/pypi-soft_deps <https://github.com/MacHu-GWU/soft_deps-project/tree/main/.claude/skills/pypi-soft_deps>`_. To use it in your project, copy it into your project's ``.claude/skills/`` folder. Run this from your project's root:
+
+.. code-block:: console
+
+    $ git clone --depth 1 https://github.com/MacHu-GWU/soft_deps-project.git /tmp/soft_deps-project
+    $ mkdir -p .claude/skills
+    $ cp -R /tmp/soft_deps-project/.claude/skills/pypi-soft_deps .claude/skills/
